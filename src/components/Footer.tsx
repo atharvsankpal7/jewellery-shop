@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Diamond, ChevronRight, Instagram, Facebook, Twitter } from 'lucide-react';
+import { Diamond, Instagram, Facebook, Twitter } from 'lucide-react';
 
 export default function Footer() {
   return (
     <footer className="bg-gradient-to-br from-gray-900 to-purple-900 text-white py-16">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           <div>
             <div className="flex items-center space-x-3 mb-6">
               <Diamond className="h-8 w-8 text-purple-400" />
@@ -78,25 +78,6 @@ export default function Footer() {
                 </Link>
               </li>
             </ul>
-          </div>
-
-          <div>
-            <h4 className="text-lg font-semibold mb-6">Newsletter</h4>
-            <p className="text-gray-300 mb-4">
-              Subscribe to receive updates about new collections and exclusive offers
-            </p>
-            <form className="space-y-4">
-              <div className="flex">
-                <input
-                  type="email"
-                  placeholder="Your email"
-                  className="px-4 py-3 bg-gray-800 text-white rounded-l-md focus:outline-none focus:ring-2 focus:ring-purple-500 flex-grow"
-                />
-                <button className="bg-gradient-to-r from-purple-600 to-pink-600 px-6 rounded-r-md hover:opacity-90 transition-opacity">
-                  <ChevronRight className="h-5 w-5" />
-                </button>
-              </div>
-            </form>
           </div>
         </div>
 

@@ -1,8 +1,59 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Diamond, Award, Heart, Star } from 'lucide-react';
+import { Diamond, Award, Heart, Star, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Navigation, Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 export default function Home() {
+  const testimonials = [
+    {
+      name: "Sarah Johnson",
+      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80",
+      text: "The attention to detail and customer service is exceptional. My engagement ring is absolutely perfect!"
+    },
+    {
+      name: "Michael Chen",
+      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&q=80",
+      text: "Lumière's craftsmanship is unmatched. The vintage necklace I purchased exceeded all expectations."
+    },
+    {
+      name: "Emma Thompson",
+      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=150&q=80",
+      text: "Every piece tells a story. The sapphire bracelet I received is truly a work of art."
+    }
+  ];
+
+  const featuredCollections = [
+    {
+      title: "Royal Diamonds",
+      image: "https://images.unsplash.com/photo-1603561591411-07134e71a2a9?auto=format&fit=crop&w=800&q=80",
+      description: "Exquisite diamond pieces for life's special moments"
+    },
+    {
+      title: "Vintage Elegance",
+      image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=800&q=80",
+      description: "Timeless designs inspired by classic aesthetics"
+    },
+    {
+      title: "Modern Romance",
+      image: "https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?auto=format&fit=crop&w=800&q=80",
+      description: "Contemporary pieces for the modern connoisseur"
+    },
+    {
+      title: "Sapphire Dreams",
+      image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=800&q=80",
+      description: "Elegant sapphire jewelry for the sophisticated"
+    },
+    {
+      title: "Pearl Essence",
+      image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=800&q=80",
+      description: "Timeless pearl collections for every occasion"
+    }
+  ];
+
   return (
     <div>
       {/* Hero Section */}
@@ -38,45 +89,62 @@ export default function Home() {
       <section className="py-24 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-serif font-bold text-center mb-16">Featured Collections</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                title: "Royal Diamonds",
-                image: "https://images.unsplash.com/photo-1603561591411-07134e71a2a9?auto=format&fit=crop&w=800&q=80",
-                description: "Exquisite diamond pieces for life's special moments"
-              },
-              {
-                title: "Vintage Elegance",
-                image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=800&q=80",
-                description: "Timeless designs inspired by classic aesthetics"
-              },
-              {
-                title: "Modern Romance",
-                image: "https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?auto=format&fit=crop&w=800&q=80",
-                description: "Contemporary pieces for the modern connoisseur"
-              }
-            ].map((collection, index) => (
-              <div key={index} className="group relative overflow-hidden rounded-xl shadow-lg">
-                <div className="aspect-w-3 aspect-h-4">
-                  <img
-                    src={collection.image}
-                    alt={collection.title}
-                    className="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-500"
-                  />
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-6">
-                  <h3 className="text-2xl font-serif font-bold text-white mb-2">{collection.title}</h3>
-                  <p className="text-gray-200 mb-4">{collection.description}</p>
-                  <Link
-                    to={`/collections/${collection.title.toLowerCase().replace(' ', '-')}`}
-                    className="text-white font-medium hover:text-purple-300 transition-colors inline-flex items-center"
-                  >
-                    Explore Collection
-                    <span className="ml-2">→</span>
-                  </Link>
-                </div>
-              </div>
-            ))}
+          <div className="relative">
+            <Swiper
+              modules={[Autoplay, Navigation, Pagination]}
+              spaceBetween={30}
+              slidesPerView={1}
+              breakpoints={{
+                640: { slidesPerView: 2 },
+                1024: { slidesPerView: 3 }
+              }}
+              loop={true}
+              autoplay={{
+                delay: 3000,
+                disableOnInteraction: false,
+              }}
+              navigation={{
+                prevEl: '.swiper-button-prev',
+                nextEl: '.swiper-button-next',
+              }}
+              pagination={{
+                clickable: true,
+                bulletClass: 'swiper-pagination-bullet !bg-purple-600',
+                bulletActiveClass: 'swiper-pagination-bullet-active !bg-purple-600',
+              }}
+              className="px-4 py-8"
+            >
+              {featuredCollections.map((collection, index) => (
+                <SwiperSlide key={index}>
+                  <div className="group relative overflow-hidden rounded-xl shadow-lg">
+                    <div className="aspect-w-3 aspect-h-4">
+                      <img
+                        src={collection.image}
+                        alt={collection.title}
+                        className="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-500"
+                      />
+                    </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-6">
+                      <h3 className="text-2xl font-serif font-bold text-white mb-2">{collection.title}</h3>
+                      <p className="text-gray-200 mb-4">{collection.description}</p>
+                      <Link
+                        to="/collections"
+                        className="text-white font-medium hover:text-purple-300 transition-colors inline-flex items-center"
+                      >
+                        Explore Collection
+                        <span className="ml-2">→</span>
+                      </Link>
+                    </div>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+            <button className="swiper-button-prev !w-12 !h-12 !bg-white/80 rounded-full shadow-lg backdrop-blur-sm after:!text-2xl after:!text-purple-600 hover:!bg-white transition-colors">
+              <ChevronLeft className="h-6 w-6 text-purple-600" />
+            </button>
+            <button className="swiper-button-next !w-12 !h-12 !bg-white/80 rounded-full shadow-lg backdrop-blur-sm after:!text-2xl after:!text-purple-600 hover:!bg-white transition-colors">
+              <ChevronRight className="h-6 w-6 text-purple-600" />
+            </button>
           </div>
         </div>
       </section>
@@ -115,7 +183,7 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-serif font-bold text-center mb-16">Client Stories</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[1, 2, 3].map((i) => (
+            {testimonials.map((testimonial, i) => (
               <div key={i} className="bg-gradient-to-br from-purple-50 to-pink-50 p-8 rounded-xl">
                 <div className="flex mb-6">
                   {[1, 2, 3, 4, 5].map((star) => (
@@ -123,16 +191,16 @@ export default function Home() {
                   ))}
                 </div>
                 <p className="text-gray-700 mb-6 italic">
-                  "The attention to detail and customer service is exceptional. My engagement ring is absolutely perfect!"
+                  {testimonial.text}
                 </p>
                 <div className="flex items-center">
                   <img
-                    src={`https://images.unsplash.com/photo-${1500648767791 + i}-00dce5e783cd?auto=format&fit=crop&w=60&h=60&q=80`}
-                    alt="Customer"
+                    src={testimonial.image}
+                    alt={testimonial.name}
                     className="w-12 h-12 rounded-full mr-4 object-cover"
                   />
                   <div>
-                    <p className="font-serif font-bold">Sarah Johnson</p>
+                    <p className="font-serif font-bold">{testimonial.name}</p>
                     <p className="text-sm text-gray-600">Verified Customer</p>
                   </div>
                 </div>
