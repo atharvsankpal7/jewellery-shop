@@ -108,12 +108,17 @@ export default function Contact() {
                   Visit Our Store
                 </h3>
                 <div className="aspect-w-16 aspect-h-9 mb-6">
-                  <iframe
+                  {/* <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.142047744348!2d2.3354330155716975!3d48.87456857928921!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e38f817b573%3A0x48d69c30470e7aeb!2sPlace%20Vend%C3%B4me%2C%2075001%20Paris%2C%20France!5e0!3m2!1sen!2s!4v1597994158180!5m2!1sen!2s"
                     className="w-full h-[300px] rounded-xl"
                     style={{ border: 0 }}
                     allowFullScreen
                     loading="lazy"
+                  /> */}
+                  <img
+                    src="https://res.cloudinary.com/dcidvttvz/image/upload/v1740777663/WhatsApp_Image_2025-03-01_at_01.25.37_5217b0ca_ywbszg.jpg"
+                    alt="Store Location"
+                    className="w-full h-full object-cover rounded-xl"
                   />
                 </div>
                 <div className="space-y-4">
@@ -122,7 +127,7 @@ export default function Contact() {
                     <div>
                       <h4 className="font-medium">Store Address</h4>
                       <p className="text-gray-600">
-                        Place Vendôme, 75001 Paris, France
+                        Plot no. 40,Yashwant nagar, Hupari
                       </p>
                     </div>
                   </div>
@@ -130,14 +135,27 @@ export default function Contact() {
                     <Phone className="h-6 w-6 text-green-600 mt-1" />
                     <div>
                       <h4 className="font-medium">Phone</h4>
-                      <p className="text-gray-600">+33 (0)1 23 45 67 89</p>
+                      <p className="text-gray-600">
+                        <strong>
+                          Proprietor : Parshuram Ranbhare +91 9834601795
+                        </strong>
+                      </p>
+                      <p className="text-gray-600">
+                        Rahul Belekar: +91 89561 11982
+                      </p>
+                      <p className="text-gray-600">
+                        Office Contact: +91 744-8179595
+                      </p>
+                      <p className="text-gray-600">
+                        Office WhatsApp number: +91 744-8289595
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-4">
                     <Mail className="h-6 w-6 text-green-600 mt-1" />
                     <div>
                       <h4 className="font-medium">Email</h4>
-                      <p className="text-gray-600">contact@lumiere.com</p>
+                      <p className="text-gray-600">contact@rbjewelers.com</p>
                     </div>
                   </div>
                 </div>
