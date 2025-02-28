@@ -40,7 +40,7 @@ export default function Dashboard() {
         <div className="flex flex-col h-full">
           <div className="flex items-center justify-center p-6 border-b">
             <img
-              src="../../assets/images/logo.jpg"
+              src="https://res.cloudinary.com/dcidvttvz/image/upload/v1740777244/logo_ohh01b.jpg"
               alt="RB Jewellers"
               className="w-[60px] h-[60px] md:w-[80px] md:h-[80px] lg:w-[100px] lg:h-[100px] object-contain"
             />
