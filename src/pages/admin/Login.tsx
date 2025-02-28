@@ -29,7 +29,7 @@ export default function Login() {
     try {
       setLoading(true);
 
-      const response = await fetch("http://localhost:5000/api/admin/login", {
+      const response = await fetch("/api/admin/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -68,7 +68,7 @@ export default function Login() {
             Admin Login
           </h2>
           <p className="mt-2 text-sm text-gray-600">
-            Sign in to access the Lumière admin dashboard
+            Sign in to access the RB JEWELERS admin dashboard
           </p>
         </div>
 
