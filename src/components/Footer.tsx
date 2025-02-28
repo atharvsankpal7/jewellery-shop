@@ -12,7 +12,7 @@ export default function Footer() {
               <img
                 src="https://res.cloudinary.com/dcidvttvz/image/upload/v1740777244/logo_ohh01b.jpg"
                 alt="RB Jewellers"
-                className="w-[60px] h-[60px] md:w-[80px] md:h-[80px] lg:w-[100px] lg:h-[100px] object-contain"
+                className="w-[60px] h-[60px] md:w-[80px] md:h-[80px] lg:w-[100px] lg:h-[100px] object-contain rounded-full"
               />
               <span className="text-2xl font-serif font-bold">RB JEWELERS</span>
             </div>
