@@ -31,8 +31,8 @@ export default function Navbar() {
       <div className="container mx-auto px-4">
         <nav className="flex items-center justify-between py-6">
           <Link to="/" className="flex items-center space-x-3">
-            <Diamond className="h-10 w-10 text-purple-700" />
-            <span className="text-3xl font-serif font-bold bg-gradient-to-r from-purple-700 to-pink-600 bg-clip-text text-transparent">
+            <Diamond className="h-10 w-10 text-green-700" />
+            <span className="text-3xl font-serif font-bold bg-gradient-to-r from-green-700 to-emerald-600 bg-clip-text text-transparent">
               Lumière
             </span>
           </Link>
@@ -51,14 +51,14 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
-            <Link to="/" className="text-gray-700 hover:text-purple-700 transition-colors font-medium">
+            <Link to="/" className="text-gray-700 hover:text-green-700 transition-colors font-medium">
               Home
             </Link>
             
             {/* Women's Dropdown */}
             <div className="relative group">
               <button 
-                className="flex items-center text-gray-700 hover:text-purple-700 transition-colors font-medium"
+                className="flex items-center text-gray-700 hover:text-green-700 transition-colors font-medium"
                 onClick={() => {
                   setIsWomenMenuOpen(!isWomenMenuOpen);
                   setIsMenMenuOpen(false);
@@ -71,25 +71,25 @@ export default function Navbar() {
                 <div className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-10">
                   <button 
                     onClick={() => navigateToCollection('Women-Rings')}
-                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-700"
+                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700"
                   >
                     Rings
                   </button>
                   <button 
                     onClick={() => navigateToCollection('Women-Necklaces')}
-                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-700"
+                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700"
                   >
                     Necklaces
                   </button>
                   <button 
                     onClick={() => navigateToCollection('Women-Earrings')}
-                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-700"
+                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700"
                   >
                     Earrings
                   </button>
                   <button 
                     onClick={() => navigateToCollection('Women-Bracelets')}
-                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-700"
+                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700"
                   >
                     Bracelets
                   </button>
@@ -100,7 +100,7 @@ export default function Navbar() {
             {/* Men's Dropdown */}
             <div className="relative group">
               <button 
-                className="flex items-center text-gray-700 hover:text-purple-700 transition-colors font-medium"
+                className="flex items-center text-gray-700 hover:text-green-700 transition-colors font-medium"
                 onClick={() => {
                   setIsMenMenuOpen(!isMenMenuOpen);
                   setIsWomenMenuOpen(false);
@@ -113,25 +113,25 @@ export default function Navbar() {
                 <div className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-10">
                   <button 
                     onClick={() => navigateToCollection('Men-Rings')}
-                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-700"
+                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700"
                   >
                     Rings
                   </button>
                   <button 
                     onClick={() => navigateToCollection('Men-Necklaces')}
-                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-700"
+                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700"
                   >
                     Necklaces
                   </button>
                   <button 
                     onClick={() => navigateToCollection('Men-Bracelets')}
-                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-700"
+                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700"
                   >
                     Bracelets
                   </button>
                   <button 
                     onClick={() => navigateToCollection('Men-Watches')}
-                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-700"
+                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700"
                   >
                     Watches
                   </button>
@@ -142,7 +142,7 @@ export default function Navbar() {
             {/* Collections Dropdown */}
             <div className="relative group">
               <button 
-                className="flex items-center text-gray-700 hover:text-purple-700 transition-colors font-medium"
+                className="flex items-center text-gray-700 hover:text-green-700 transition-colors font-medium"
                 onClick={() => {
                   setIsCollectionsMenuOpen(!isCollectionsMenuOpen);
                   setIsWomenMenuOpen(false);
@@ -155,31 +155,31 @@ export default function Navbar() {
                 <div className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-10">
                   <button 
                     onClick={() => navigateToCollection('Gold')}
-                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-700"
+                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700"
                   >
                     Gold
                   </button>
                   <button 
                     onClick={() => navigateToCollection('Silver')}
-                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-700"
+                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700"
                   >
                     Silver
                   </button>
                   <button 
                     onClick={() => navigateToCollection('Platinum')}
-                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-700"
+                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700"
                   >
                     Platinum
                   </button>
                   <button 
                     onClick={() => navigateToCollection('Diamonds')}
-                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-700"
+                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700"
                   >
                     Diamonds
                   </button>
                   <button 
                     onClick={() => navigateToCollection('Engagement')}
-                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-purple-50 hover:text-purple-700"
+                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700"
                   >
                     Engagement
                   </button>
@@ -187,10 +187,10 @@ export default function Navbar() {
               )}
             </div>
             
-            <Link to="/about" className="text-gray-700 hover:text-purple-700 transition-colors font-medium">
+            <Link to="/about" className="text-gray-700 hover:text-green-700 transition-colors font-medium">
               About
             </Link>
-            <Link to="/contact" className="text-gray-700 hover:text-purple-700 transition-colors font-medium">
+            <Link to="/contact" className="text-gray-700 hover:text-green-700 transition-colors font-medium">
               Contact
             </Link>
             
@@ -201,7 +201,7 @@ export default function Navbar() {
                 placeholder="Search..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent w-48"
+                className="pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent w-48"
               />
               <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
             </form>
@@ -214,7 +214,7 @@ export default function Navbar() {
             <div className="flex flex-col space-y-4">
               <Link
                 to="/"
-                className="text-gray-700 hover:text-purple-700 transition-colors font-medium"
+                className="text-gray-700 hover:text-green-700 transition-colors font-medium"
                 onClick={() => setIsOpen(false)}
               >
                 Home
@@ -224,7 +224,7 @@ export default function Navbar() {
               <div>
                 <button 
                   onClick={() => setIsWomenMenuOpen(!isWomenMenuOpen)}
-                  className="flex items-center justify-between w-full text-gray-700 hover:text-purple-700 transition-colors font-medium"
+                  className="flex items-center justify-between w-full text-gray-700 hover:text-green-700 transition-colors font-medium"
                 >
                   <span>Women</span>
                   <ChevronDown className="h-4 w-4" />
@@ -233,25 +233,25 @@ export default function Navbar() {
                   <div className="pl-4 mt-2 space-y-2">
                     <button 
                       onClick={() => navigateToCollection('Women-Rings')}
-                      className="block w-full text-left py-1 text-gray-700 hover:text-purple-700"
+                      className="block w-full text-left py-1 text-gray-700 hover:text-green-700"
                     >
                       Rings
                     </button>
                     <button 
                       onClick={() => navigateToCollection('Women-Necklaces')}
-                      className="block w-full text-left py-1 text-gray-700 hover:text-purple-700"
+                      className="block w-full text-left py-1 text-gray-700 hover:text-green-700"
                     >
                       Necklaces
                     </button>
                     <button 
                       onClick={() => navigateToCollection('Women-Earrings')}
-                      className="block w-full text-left py-1 text-gray-700 hover:text-purple-700"
+                      className="block w-full text-left py-1 text-gray-700 hover:text-green-700"
                     >
                       Earrings
                     </button>
                     <button 
                       onClick={() => navigateToCollection('Women-Bracelets')}
-                      className="block w-full text-left py-1 text-gray-700 hover:text-purple-700"
+                      className="block w-full text-left py-1 text-gray-700 hover:text-green-700"
                     >
                       Bracelets
                     </button>
@@ -263,7 +263,7 @@ export default function Navbar() {
               <div>
                 <button 
                   onClick={() => setIsMenMenuOpen(!isMenMenuOpen)}
-                  className="flex items-center justify-between w-full text-gray-700 hover:text-purple-700 transition-colors font-medium"
+                  className="flex items-center justify-between w-full text-gray-700 hover:text-green-700 transition-colors font-medium"
                 >
                   <span>Men</span>
                   <ChevronDown className="h-4 w-4" />
@@ -272,25 +272,25 @@ export default function Navbar() {
                   <div className="pl-4 mt-2 space-y-2">
                     <button 
                       onClick={() => navigateToCollection('Men-Rings')}
-                      className="block w-full text-left py-1 text-gray-700 hover:text-purple-700"
+                      className="block w-full text-left py-1 text-gray-700 hover:text-green-700"
                     >
                       Rings
                     </button>
                     <button 
                       onClick={() => navigateToCollection('Men-Necklaces')}
-                      className="block w-full text-left py-1 text-gray-700 hover:text-purple-700"
+                      className="block w-full text-left py-1 text-gray-700 hover:text-green-700"
                     >
                       Necklaces
                     </button>
                     <button 
                       onClick={() => navigateToCollection('Men-Bracelets')}
-                      className="block w-full text-left py-1 text-gray-700 hover:text-purple-700"
+                      className="block w-full text-left py-1 text-gray-700 hover:text-green-700"
                     >
                       Bracelets
                     </button>
                     <button 
                       onClick={() => navigateToCollection('Men-Watches')}
-                      className="block w-full text-left py-1 text-gray-700 hover:text-purple-700"
+                      className="block w-full text-left py-1 text-gray-700 hover:text-green-700"
                     >
                       Watches
                     </button>
@@ -302,7 +302,7 @@ export default function Navbar() {
               <div>
                 <button 
                   onClick={() => setIsCollectionsMenuOpen(!isCollectionsMenuOpen)}
-                  className="flex items-center justify-between w-full text-gray-700 hover:text-purple-700 transition-colors font-medium"
+                  className="flex items-center justify-between w-full text-gray-700 hover:text-green-700 transition-colors font-medium"
                 >
                   <span>Collections</span>
                   <ChevronDown className="h-4 w-4" />
@@ -311,31 +311,31 @@ export default function Navbar() {
                   <div className="pl-4 mt-2 space-y-2">
                     <button 
                       onClick={() => navigateToCollection('Gold')}
-                      className="block w-full text-left py-1 text-gray-700 hover:text-purple-700"
+                      className="block w-full text-left py-1 text-gray-700 hover:text-green-700"
                     >
                       Gold
                     </button>
                     <button 
                       onClick={() => navigateToCollection('Silver')}
-                      className="block w-full text-left py-1 text-gray-700 hover:text-purple-700"
+                      className="block w-full text-left py-1 text-gray-700 hover:text-green-700"
                     >
                       Silver
                     </button>
                     <button 
                       onClick={() => navigateToCollection('Platinum')}
-                      className="block w-full text-left py-1 text-gray-700 hover:text-purple-700"
+                      className="block w-full text-left py-1 text-gray-700 hover:text-green-700"
                     >
                       Platinum
                     </button>
                     <button 
                       onClick={() => navigateToCollection('Diamonds')}
-                      className="block w-full text-left py-1 text-gray-700 hover:text-purple-700"
+                      className="block w-full text-left py-1 text-gray-700 hover:text-green-700"
                     >
                       Diamonds
                     </button>
                     <button 
                       onClick={() => navigateToCollection('Engagement')}
-                      className="block w-full text-left py-1 text-gray-700 hover:text-purple-700"
+                      className="block w-full text-left py-1 text-gray-700 hover:text-green-700"
                     >
                       Engagement
                     </button>
@@ -345,14 +345,14 @@ export default function Navbar() {
               
               <Link
                 to="/about"
-                className="text-gray-700 hover:text-purple-700 transition-colors font-medium"
+                className="text-gray-700 hover:text-green-700 transition-colors font-medium"
                 onClick={() => setIsOpen(false)}
               >
                 About
               </Link>
               <Link
                 to="/contact"
-                className="text-gray-700 hover:text-purple-700 transition-colors font-medium"
+                className="text-gray-700 hover:text-green-700 transition-colors font-medium"
                 onClick={() => setIsOpen(false)}
               >
                 Contact
@@ -365,7 +365,7 @@ export default function Navbar() {
                   placeholder="Search..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent w-full"
+                  className="pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent w-full"
                 />
                 <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
               </form>

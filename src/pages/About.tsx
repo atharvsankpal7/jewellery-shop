@@ -5,7 +5,7 @@ export default function About() {
   return (
     <div className="pt-24">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-purple-900 to-pink-900 text-white py-24">
+      <section className="relative bg-gradient-to-br from-green-900 to-emerald-900 text-white py-24">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-5xl font-serif font-bold mb-8">Our Story</h1>
@@ -29,7 +29,7 @@ export default function About() {
               { icon: Globe, stat: "20+", label: "Countries Served" }
             ].map((item, index) => (
               <div key={index} className="text-center">
-                <item.icon className="h-12 w-12 text-purple-600 mx-auto mb-4" />
+                <item.icon className="h-12 w-12 text-green-600 mx-auto mb-4" />
                 <p className="text-4xl font-bold text-gray-900 mb-2">{item.stat}</p>
                 <p className="text-gray-600">{item.label}</p>
               </div>
@@ -39,7 +39,7 @@ export default function About() {
       </section>
 
       {/* Our Story */}
-      <section className="py-24 bg-gradient-to-br from-purple-50 to-pink-50">
+      <section className="py-24 bg-gradient-to-br from-green-50 to-emerald-50">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             <div>
@@ -103,7 +103,7 @@ export default function About() {
                     alt={member.name}
                     className="w-48 h-48 rounded-full object-cover mx-auto"
                   />
-                  <div className="absolute inset-0 rounded-full border-4 border-purple-600 opacity-0 hover:opacity-100 transition-opacity" />
+                  <div className="absolute inset-0 rounded-full border-4 border-green-600 opacity-0 hover:opacity-100 transition-opacity" />
                 </div>
                 <h3 className="text-2xl font-serif font-bold mb-2">{member.name}</h3>
                 <p className="text-gray-600">{member.role}</p>
@@ -114,7 +114,7 @@ export default function About() {
       </section>
 
       {/* Values */}
-      <section className="py-24 bg-gradient-to-br from-purple-900 to-pink-900 text-white">
+      <section className="py-24 bg-gradient-to-br from-green-900 to-emerald-900 text-white">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-serif font-bold text-center mb-16">Our Values</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">

@@ -4,12 +4,12 @@ import { Diamond, Instagram, Facebook, Twitter } from 'lucide-react';
 
 export default function Footer() {
   return (
-    <footer className="bg-gradient-to-br from-gray-900 to-purple-900 text-white py-16">
+    <footer className="bg-gradient-to-br from-gray-900 to-green-900 text-white py-16">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           <div>
             <div className="flex items-center space-x-3 mb-6">
-              <Diamond className="h-8 w-8 text-purple-400" />
+              <Diamond className="h-8 w-8 text-green-400" />
               <span className="text-2xl font-serif font-bold">Lumière</span>
             </div>
             <p className="text-gray-300 mb-6">

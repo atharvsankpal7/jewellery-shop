@@ -5,7 +5,7 @@ export default function Contact() {
   return (
     <div className="pt-24">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-purple-900 to-pink-900 text-white py-24">
+      <section className="relative bg-gradient-to-br from-green-900 to-emerald-900 text-white py-24">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-5xl font-serif font-bold mb-8">Get in Touch</h1>
@@ -20,7 +20,7 @@ export default function Contact() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             {/* Contact Form */}
-            <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-8 rounded-xl">
+            <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-8 rounded-xl">
               <h2 className="text-3xl font-serif font-bold mb-8">Send Us a Message</h2>
               <form className="space-y-6">
                 <div>
@@ -30,7 +30,7 @@ export default function Contact() {
                   <input
                     type="text"
                     id="name"
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
                     placeholder="Your name"
                   />
                 </div>
@@ -41,7 +41,7 @@ export default function Contact() {
                   <input
                     type="email"
                     id="email"
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
                     placeholder="your@email.com"
                   />
                 </div>
@@ -52,7 +52,7 @@ export default function Contact() {
                   <input
                     type="text"
                     id="subject"
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
                     placeholder="How can we help?"
                   />
                 </div>
@@ -63,13 +63,13 @@ export default function Contact() {
                   <textarea
                     id="message"
                     rows={6}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
                     placeholder="Your message..."
                   />
                 </div>
                 <button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-purple-700 to-pink-600 text-white py-4 rounded-lg hover:opacity-90 transition-opacity font-medium"
+                  className="w-full bg-gradient-to-r from-green-700 to-emerald-600 text-white py-4 rounded-lg hover:opacity-90 transition-opacity font-medium"
                 >
                   Send Message
                 </button>
@@ -92,21 +92,21 @@ export default function Contact() {
                 </div>
                 <div className="space-y-4">
                   <div className="flex items-start space-x-4">
-                    <MapPin className="h-6 w-6 text-purple-600 mt-1" />
+                    <MapPin className="h-6 w-6 text-green-600 mt-1" />
                     <div>
                       <h4 className="font-medium">Store Address</h4>
                       <p className="text-gray-600">Place Vendôme, 75001 Paris, France</p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-4">
-                    <Phone className="h-6 w-6 text-purple-600 mt-1" />
+                    <Phone className="h-6 w-6 text-green-600 mt-1" />
                     <div>
                       <h4 className="font-medium">Phone</h4>
                       <p className="text-gray-600">+33 (0)1 23 45 67 89</p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-4">
-                    <Mail className="h-6 w-6 text-purple-600 mt-1" />
+                    <Mail className="h-6 w-6 text-green-600 mt-1" />
                     <div>
                       <h4 className="font-medium">Email</h4>
                       <p className="text-gray-600">contact@lumiere.com</p>
@@ -123,25 +123,25 @@ export default function Contact() {
                     href="https://instagram.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-gradient-to-br from-purple-50 to-pink-50 p-4 rounded-full hover:scale-110 transition-transform"
+                    className="bg-gradient-to-br from-green-50 to-emerald-50 p-4 rounded-full hover:scale-110 transition-transform"
                   >
-                    <Instagram className="h-6 w-6 text-purple-600" />
+                    <Instagram className="h-6 w-6 text-green-600" />
                   </a>
                   <a
                     href="https://facebook.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-gradient-to-br from-purple-50 to-pink-50 p-4 rounded-full hover:scale-110 transition-transform"
+                    className="bg-gradient-to-br from-green-50 to-emerald-50 p-4 rounded-full hover:scale-110 transition-transform"
                   >
-                    <Facebook className="h-6 w-6 text-purple-600" />
+                    <Facebook className="h-6 w-6 text-green-600" />
                   </a>
                   <a
                     href="https://twitter.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-gradient-to-br from-purple-50 to-pink-50 p-4 rounded-full hover:scale-110 transition-transform"
+                    className="bg-gradient-to-br from-green-50 to-emerald-50 p-4 rounded-full hover:scale-110 transition-transform"
                   >
-                    <Twitter className="h-6 w-6 text-purple-600" />
+                    <Twitter className="h-6 w-6 text-green-600" />
                   </a>
                 </div>
               </div>

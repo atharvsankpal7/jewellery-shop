@@ -262,7 +262,7 @@ export default function Collections() {
   };
 
   return (
-    <div className="pt-24 bg-gradient-to-br from-purple-50 to-pink-50">
+    <div className="pt-24 bg-gradient-to-br from-green-50 to-emerald-50">
       {/* Header */}
       <div className="container mx-auto px-4 py-16">
         <h1 className="text-5xl font-serif font-bold text-center mb-6">Our Collections</h1>
@@ -281,8 +281,8 @@ export default function Collections() {
               onClick={() => handleCategoryChange(category)}
               className={`px-6 py-2 rounded-full border-2 transition-all transform hover:scale-105 ${
                 selectedCategory === category
-                  ? 'border-purple-600 bg-purple-600 text-white shadow-lg'
-                  : 'border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white'
+                  ? 'border-green-600 bg-green-600 text-white shadow-lg'
+                  : 'border-green-600 text-green-600 hover:bg-green-600 hover:text-white'
               }`}
             >
               {category}
@@ -298,8 +298,8 @@ export default function Collections() {
               onClick={() => handleCategoryChange(material)}
               className={`px-6 py-2 rounded-full border-2 transition-all transform hover:scale-105 ${
                 selectedCategory === material
-                  ? 'border-purple-600 bg-purple-600 text-white shadow-lg'
-                  : 'border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white'
+                  ? 'border-green-600 bg-green-600 text-white shadow-lg'
+                  : 'border-green-600 text-green-600 hover:bg-green-600 hover:text-white'
               }`}
             >
               {material}
@@ -315,8 +315,8 @@ export default function Collections() {
               onClick={() => handleCategoryChange(gender)}
               className={`px-6 py-2 rounded-full border-2 transition-all transform hover:scale-105 ${
                 selectedCategory === gender
-                  ? 'border-purple-600 bg-purple-600 text-white shadow-lg'
-                  : 'border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white'
+                  ? 'border-green-600 bg-green-600 text-white shadow-lg'
+                  : 'border-green-600 text-green-600 hover:bg-green-600 hover:text-white'
               }`}
             >
               {gender}
@@ -348,20 +348,20 @@ export default function Collections() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                     <div className="absolute top-4 right-4 flex flex-col gap-2 items-end">
-                      <span className="px-3 py-1 bg-white/90 text-purple-600 text-sm rounded-full shadow-lg backdrop-blur-sm">
+                      <span className="px-3 py-1 bg-white/90 text-green-600 text-sm rounded-full shadow-lg backdrop-blur-sm">
                         {collection.category}
                       </span>
-                      <span className="px-3 py-1 bg-white/90 text-purple-600 text-sm rounded-full shadow-lg backdrop-blur-sm">
+                      <span className="px-3 py-1 bg-white/90 text-green-600 text-sm rounded-full shadow-lg backdrop-blur-sm">
                         {collection.gender}
                       </span>
-                      <span className="px-3 py-1 bg-white/90 text-purple-600 text-sm rounded-full shadow-lg backdrop-blur-sm">
+                      <span className="px-3 py-1 bg-white/90 text-green-600 text-sm rounded-full shadow-lg backdrop-blur-sm">
                         {collection.material}
                       </span>
                     </div>
                   </div>
                   <div className="p-6">
                     <h3 className="text-2xl font-serif font-bold mb-2">{collection.name}</h3>
-                    <p className="text-purple-600 font-semibold">{collection.price}</p>
+                    <p className="text-green-600 font-semibold">{collection.price}</p>
                   </div>
                 </div>
               </div>
