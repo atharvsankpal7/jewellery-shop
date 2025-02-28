@@ -39,7 +39,11 @@ export default function Dashboard() {
       <div className="fixed inset-y-0 left-0 w-64 bg-white shadow-lg z-10">
         <div className="flex flex-col h-full">
           <div className="flex items-center justify-center p-6 border-b">
-            <Diamond className="h-8 w-8 text-green-700 mr-2" />
+            <img
+              src="../../assets/images/logo.jpg"
+              alt="RB Jewellers"
+              className="w-[60px] h-[60px] md:w-[80px] md:h-[80px] lg:w-[100px] lg:h-[100px] object-contain"
+            />
             <span className="text-2xl font-serif font-bold bg-gradient-to-r from-green-700 to-emerald-600 bg-clip-text text-transparent">
               RB JEWELERS
             </span>

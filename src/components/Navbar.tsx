@@ -31,8 +31,12 @@ export default function Navbar() {
       <div className="container mx-auto px-4">
         <nav className="flex items-center justify-between py-6">
           <Link to="/" className="flex items-center space-x-3">
-            <Diamond className="h-10 w-10 text-green-700" />
-            <span className="text-3xl font-serif font-bold bg-gradient-to-r from-green-700 to-emerald-600 bg-clip-text text-transparent">
+            <img
+              src="../../assets/images/logo.jpg"
+              alt="RB Jewellers"
+              className="w-[60px] h-[60px] md:w-[80px] md:h-[80px] lg:w-[100px] lg:h-[100px] object-contain"
+            />
+            <span className="text-xl md:text-2xl lg:text-3xl font-serif font-bold bg-gradient-to-r from-green-700 to-emerald-600 bg-clip-text text-transparent">
               RB JEWELERS
             </span>
           </Link>

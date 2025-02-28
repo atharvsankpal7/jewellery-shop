@@ -9,7 +9,11 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           <div>
             <div className="flex items-center space-x-3 mb-6">
-              <Diamond className="h-8 w-8 text-green-400" />
+              <img
+                src="../../assets/images/logo.jpg"
+                alt="RB Jewellers"
+                className="w-[60px] h-[60px] md:w-[80px] md:h-[80px] lg:w-[100px] lg:h-[100px] object-contain"
+              />
               <span className="text-2xl font-serif font-bold">RB JEWELERS</span>
             </div>
             <p className="text-gray-300 mb-6">

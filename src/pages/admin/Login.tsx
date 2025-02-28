@@ -71,7 +71,11 @@ export default function Login() {
       <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-xl shadow-lg">
         <div className="text-center">
           <div className="flex justify-center">
-            <Diamond className="h-12 w-12 text-green-700" />
+            <img
+              src="../../assets/images/logo.jpg"
+              alt="RB Jewellers"
+              className="w-[60px] h-[60px] md:w-[80px] md:h-[80px] lg:w-[100px] lg:h-[100px] object-contain"
+            />
           </div>
           <h2 className="mt-6 text-3xl font-serif font-bold text-gray-900">
             Admin Login
@@ -155,6 +159,16 @@ export default function Login() {
               }`}
             >
               {loading ? "Signing in..." : "Sign in"}
+            </button>
+          </div>
+
+          <div className="mt-4">
+            <button
+              type="button"
+              onClick={() => navigate("/")}
+              className="group relative w-full flex justify-center py-3 px-4 border border-green-700 text-sm font-medium rounded-lg text-green-700 hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+            >
+              Go to Homepage
             </button>
           </div>
         </form>
