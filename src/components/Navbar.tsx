@@ -29,7 +29,7 @@ export default function Navbar() {
   return (
     <header className="bg-white shadow-md fixed w-full z-50">
       <div className="container mx-auto px-4">
-        <nav className="flex items-center justify-between py-6">
+        <nav className="flex items-center justify-between py-2">
           <Link to="/" className="flex items-center space-x-3">
             <img
               src="https://res.cloudinary.com/dcidvttvz/image/upload/v1740777244/logo_ohh01b.jpg"
