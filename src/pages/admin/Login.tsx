@@ -55,6 +55,7 @@ export default function Login() {
           email: "admin@rbjewelers.com",
         })
       );
+      localStorage.setItem("adminToken", data.token); // Save the token after login
       // Redirect to dashboard
       navigate("/admin/dashboard");
     } catch (error) {

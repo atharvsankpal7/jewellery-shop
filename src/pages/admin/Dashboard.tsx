@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Diamond, Package, LogOut, Plus, Search } from "lucide-react";
+import { Diamond, Package, LogOut, Plus, Search, Image } from "lucide-react"; // Added Image icon
 import ProductForm from "../../components/admin/ProductForm";
 import ProductList from "../../components/admin/ProductList";
+import PromotionManager from "../../components/admin/PromotionManager"; // Import PromotionManager
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("products");
@@ -74,6 +75,19 @@ export default function Dashboard() {
                 <Plus className="h-5 w-5 mr-3" />
                 <span>Add Product</span>
               </button>
+
+              {/* New Tab for Promotions */}
+              <button
+                onClick={() => setActiveTab("promotions")}
+                className={`flex items-center w-full px-4 py-3 rounded-lg transition-colors ${
+                  activeTab === "promotions"
+                    ? "bg-green-50 text-green-700"
+                    : "text-gray-600 hover:bg-gray-100"
+                }`}
+              >
+                <Image className="h-5 w-5 mr-3" />
+                <span>Manage Promotions</span>
+              </button>
             </nav>
           </div>
 
@@ -101,12 +115,14 @@ export default function Dashboard() {
           <h1 className="text-3xl font-serif font-bold text-gray-900">
             {activeTab === "products" && "Manage Products"}
             {activeTab === "add-product" && "Add New Product"}
+            {activeTab === "promotions" && "Manage Promotions"}
           </h1>
         </header>
 
         <main>
           {activeTab === "products" && <ProductList />}
           {activeTab === "add-product" && <ProductForm />}
+          {activeTab === "promotions" && <PromotionManager />}
         </main>
       </div>
     </div>

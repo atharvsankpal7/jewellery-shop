@@ -9,6 +9,7 @@ import productRoutes from "./routes/productRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
 import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
+import { router1 as promotionRoutes } from './routes/promotionRoutes.js'; // Use named import
 
 // Load environment variables
 dotenv.config();
@@ -28,6 +29,7 @@ app.use(cookieParser());
 app.use("/api/products", productRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/upload", uploadRoutes);
+app.use("/api/promotion", promotionRoutes); // Use the imported router
 
 // Get the directory name
 const __filename = fileURLToPath(import.meta.url);
