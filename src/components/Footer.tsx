@@ -6,7 +6,7 @@ export default function Footer() {
   return (
     <footer className="bg-gradient-to-br from-gray-900 to-green-900 text-white py-16">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div className="flex flex-col md:flex-row gap-12 justify-evenly">
           <div>
             <div className="flex items-center space-x-3 mb-6">
               <img
@@ -69,54 +69,10 @@ export default function Footer() {
                   Contact
                 </Link>
               </li>
-              <li>
-                <Link
-                  to="/blog"
-                  className="text-gray-300 hover:text-white transition-colors"
-                >
-                  Blog
-                </Link>
-              </li>
+              
             </ul>
           </div>
 
-          <div>
-            <h4 className="text-lg font-semibold mb-6">Customer Service</h4>
-            <ul className="space-y-4">
-              <li>
-                <Link
-                  to="/faq"
-                  className="text-gray-300 hover:text-white transition-colors"
-                >
-                  FAQ
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/shipping"
-                  className="text-gray-300 hover:text-white transition-colors"
-                >
-                  Shipping & Returns
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/care-guide"
-                  className="text-gray-300 hover:text-white transition-colors"
-                >
-                  Jewelry Care Guide
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/size-guide"
-                  className="text-gray-300 hover:text-white transition-colors"
-                >
-                  Size Guide
-                </Link>
-              </li>
-            </ul>
-          </div>
         </div>
 
         <div className="border-t border-gray-800 mt-12 pt-8">

@@ -18,10 +18,11 @@ import {
 } from "lucide-react";
 
 export default function Contact() {
-  const [activeForm, setActiveForm] = useState("message");
-  const [loading, setLoading] = useState(false);
+  // Removed activeForm state
+  const [loadingMessage, setLoadingMessage] = useState(false); // Separate loading state for message form
+  const [loadingSchedule, setLoadingSchedule] = useState(false); // Separate loading state for schedule form
   const [availableTimeSlots, setAvailableTimeSlots] = useState([]);
-  
+
   // State for message form
   const [messageForm, setMessageForm] = useState({
     name: "",
@@ -29,7 +30,7 @@ export default function Contact() {
     phone: "",
     message: "",
   });
-  
+
   // State for schedule form
   const [scheduleForm, setScheduleForm] = useState({
     name: "",
@@ -39,11 +40,11 @@ export default function Contact() {
     time: "",
     purpose: "",
   });
-  
+
   // State for feedback
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [error, setError] = useState("");
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [successMessageContent, setSuccessMessageContent] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   // Visit purpose options
   const visitPurposes = [
@@ -51,7 +52,7 @@ export default function Contact() {
     "Custom Design Discussion",
     "Repair Service",
     "Appraisal",
-    "General Browsing",
+    "General Browse",
     "Other",
   ];
 
@@ -67,29 +68,38 @@ export default function Contact() {
   useEffect(() => {
     if (scheduleForm.date) {
       fetchAvailableTimeSlots(scheduleForm.date);
+    } else {
+      setAvailableTimeSlots([]); // Clear time slots if date is cleared
+      setScheduleForm(prev => ({ ...prev, time: "" })); // Clear selected time
     }
   }, [scheduleForm.date]);
 
   const fetchAvailableTimeSlots = async (date: string | number | boolean) => {
+    setErrorMessage(""); // Clear previous errors
     try {
       const response = await fetch(
         `/api/contact/timeslots?date=${encodeURIComponent(date)}`
       );
       if (!response.ok) {
-        throw new Error("Failed to fetch time slots");
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to fetch time slots");
       }
       const slots = await response.json();
       setAvailableTimeSlots(slots);
+      if (slots.length === 0) {
+        setErrorMessage("No time slots available for the selected date. Please choose another date.");
+      }
     } catch (error) {
       console.error("Error fetching time slots:", error);
-      setError("Failed to fetch available time slots");
+      setErrorMessage(error instanceof Error ? error.message : "Failed to fetch available time slots");
+      setAvailableTimeSlots([]); // Clear slots on error
     }
   };
 
-  const handleMessageSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleMessageSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
-    setLoading(true);
+    setErrorMessage("");
+    setLoadingMessage(true);
 
     try {
       const response = await fetch("/api/contact/message", {
@@ -106,8 +116,8 @@ export default function Contact() {
         throw new Error(data.message || "Failed to send message");
       }
 
-      setSuccessMessage("Your message has been sent successfully!");
-      setShowSuccess(true);
+      setSuccessMessageContent("Your message has been sent successfully!");
+      setShowSuccessMessage(true);
       setMessageForm({
         name: "",
         email: "",
@@ -116,19 +126,19 @@ export default function Contact() {
       });
 
       setTimeout(() => {
-        setShowSuccess(false);
+        setShowSuccessMessage(false);
       }, 3000);
     } catch (error) {
-      setError(error instanceof Error ? error.message : "Failed to send message");
+      setErrorMessage(error instanceof Error ? error.message : "Failed to send message");
     } finally {
-      setLoading(false);
+      setLoadingMessage(false);
     }
   };
 
-  const handleScheduleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleScheduleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError("");
-    setLoading(true);
+    setErrorMessage("");
+    setLoadingSchedule(true);
 
     try {
       const response = await fetch("/api/contact/visit", {
@@ -145,8 +155,8 @@ export default function Contact() {
         throw new Error(data.message || "Failed to schedule visit");
       }
 
-      setSuccessMessage("Your visit has been scheduled successfully!");
-      setShowSuccess(true);
+      setSuccessMessageContent("Your visit has been scheduled successfully!");
+      setShowSuccessMessage(true);
       setScheduleForm({
         name: "",
         email: "",
@@ -155,14 +165,15 @@ export default function Contact() {
         time: "",
         purpose: "",
       });
+      setAvailableTimeSlots([]); // Clear time slots after successful submission
 
       setTimeout(() => {
-        setShowSuccess(false);
+        setShowSuccessMessage(false);
       }, 3000);
     } catch (error) {
-      setError(error instanceof Error ? error.message : "Failed to schedule visit");
+      setErrorMessage(error instanceof Error ? error.message : "Failed to schedule visit");
     } finally {
-      setLoading(false);
+      setLoadingSchedule(false);
     }
   };
 
@@ -184,87 +195,187 @@ export default function Contact() {
       <section className="py-24 bg-white">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-            {/* Form Section with Tabs */}
+            {/* Form Section - No Tabs */}
             <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-              {/* Tab Navigation */}
-              <div className="flex border-b">
-                <button
-                  onClick={() => setActiveForm("message")}
-                  className={`flex-1 py-4 px-6 flex items-center justify-center gap-2 font-medium transition-colors ${
-                    activeForm === "message"
-                      ? "text-green-700 border-b-2 border-green-700"
-                      : "text-gray-500 hover:text-green-600"
-                  }`}
-                >
-                  <MessageSquare className="h-5 w-5" />
-                  <span>Send Message</span>
-                </button>
-                <button
-                  onClick={() => setActiveForm("schedule")}
-                  className={`flex-1 py-4 px-6 flex items-center justify-center gap-2 font-medium transition-colors ${
-                    activeForm === "schedule"
-                      ? "text-green-700 border-b-2 border-green-700"
-                      : "text-gray-500 hover:text-green-600"
-                  }`}
-                >
-                  <Calendar className="h-5 w-5" />
-                  <span>Schedule a Visit</span>
-                </button>
-              </div>
-
-              {/* Content Area */}
               <div className="p-8 bg-gradient-to-br from-green-50 to-emerald-50">
-                {/* Error Message */}
-                {error && (
+                {/* Error Message Display - Common for both forms */}
+                {errorMessage && (
                   <div className="mb-6 bg-red-100 border border-red-300 text-red-800 rounded-lg p-4 flex items-center gap-3">
                     <Info className="h-5 w-5 text-red-600" />
-                    <span>{error}</span>
+                    <span>{errorMessage}</span>
                   </div>
                 )}
 
-                {/* Success Message */}
-                {showSuccess && (
+                {/* Success Message Display - Common for both forms */}
+                {showSuccessMessage && (
                   <div className="mb-6 bg-green-100 border border-green-300 text-green-800 rounded-lg p-4 flex items-center gap-3 animate-fadeIn">
                     <Check className="h-5 w-5 text-green-600" />
-                    <span>{successMessage}</span>
+                    <span>{successMessageContent}</span>
                   </div>
                 )}
 
                 {/* Message Form */}
-                {activeForm === "message" && (
-                  <div>
-                    <h2 className="text-2xl font-serif font-bold mb-6">
-                      Send Us a Message
-                    </h2>
-                    <form onSubmit={handleMessageSubmit} className="space-y-6">
-                      <div>
-                        <label
-                          htmlFor="name"
-                          className="block text-sm font-medium text-gray-700 mb-2"
-                        >
-                          Full Name
-                        </label>
-                        <div className="relative">
-                          <User className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                          <input
-                            type="text"
-                            id="name"
-                            value={messageForm.name}
-                            onChange={(e) =>
-                              setMessageForm({
-                                ...messageForm,
-                                name: e.target.value,
-                              })
-                            }
-                            className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                            placeholder="Your name"
-                            required
-                          />
-                        </div>
+                <div className="mb-16"> {/* Added margin-bottom for separation */}
+                  <h2 className="text-2xl font-serif font-bold mb-6 border-t pt-4 border-gray-200">
+                    Send Us a Message
+                  </h2>
+                  <form onSubmit={handleMessageSubmit} className="space-y-6">
+                    <div>
+                      <label
+                        htmlFor="name"
+                        className="block text-sm font-medium text-gray-700 mb-2"
+                      >
+                        Full Name
+                      </label>
+                      <div className="relative">
+                        <User className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                        <input
+                          type="text"
+                          id="name"
+                          value={messageForm.name}
+                          onChange={(e) =>
+                            setMessageForm({
+                              ...messageForm,
+                              name: e.target.value,
+                            })
+                          }
+                          className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                          placeholder="Your name"
+                          required
+                        />
                       </div>
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="email"
+                        className="block text-sm font-medium text-gray-700 mb-2"
+                      >
+                        Email Address
+                      </label>
+                      <div className="relative">
+                        <Mail className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                        <input
+                          type="email"
+                          id="email"
+                          value={messageForm.email}
+                          onChange={(e) =>
+                            setMessageForm({
+                              ...messageForm,
+                              email: e.target.value,
+                            })
+                          }
+                          className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                          placeholder="your@email.com"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="phone"
+                        className="block text-sm font-medium text-gray-700 mb-2"
+                      >
+                        Phone Number
+                      </label>
+                      <div className="relative">
+                        <Phone className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                        <input
+                          type="tel"
+                          id="phone"
+                          value={messageForm.phone}
+                          onChange={(e) =>
+                            setMessageForm({
+                              ...messageForm,
+                              phone: e.target.value,
+                            })
+                          }
+                          className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                          placeholder="Your phone number"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="message"
+                        className="block text-sm font-medium text-gray-700 mb-2"
+                      >
+                        Message
+                      </label>
+                      <div className="relative">
+                        <MessageSquare className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                        <textarea
+                          id="message"
+                          rows={6}
+                          value={messageForm.message}
+                          onChange={(e) =>
+                            setMessageForm({
+                              ...messageForm,
+                              message: e.target.value,
+                            })
+                          }
+                          className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                          placeholder="Your message or inquiry..."
+                          required
+                        />
+                      </div>
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={loadingMessage}
+                      className={`w-full bg-gradient-to-r from-green-700 to-emerald-600 text-white py-4 rounded-lg hover:opacity-90 transition-opacity font-medium flex items-center justify-center gap-2 ${
+                        loadingMessage ? "opacity-70 cursor-not-allowed" : ""
+                      }`}
+                    >
+                      <Send className="h-5 w-5" />
+                      <span>{loadingMessage ? "Sending..." : "Send Message"}</span>
+                    </button>
+                  </form>
+                </div>
+
+                {/* Schedule Form */}
+                <div>
+                  <h2 className="text-2xl font-serif font-bold mb-6 border-t pt-4 border-gray-200">
+                    Schedule a Store Visit
+                  </h2>
+                  <div className="bg-green-100 text-green-800 p-4 rounded-lg mb-6 flex items-start gap-3">
+                    <Info className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
+                    <p className="text-sm">
+                      Schedule an appointment with our jewelry experts for
+                      personalized service. We'll confirm your appointment via
+                      email or phone within 24 hours.
+                    </p>
+                  </div>
+                  <form onSubmit={handleScheduleSubmit} className="space-y-6">
+                    <div>
+                      <label
+                        htmlFor="sched-name"
+                        className="block text-sm font-medium text-gray-700 mb-2"
+                      >
+                        Full Name
+                      </label>
+                      <div className="relative">
+                        <User className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                        <input
+                          type="text"
+                          id="sched-name"
+                          value={scheduleForm.name}
+                          onChange={(e) =>
+                            setScheduleForm({
+                              ...scheduleForm,
+                              name: e.target.value,
+                            })
+                          }
+                          className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                          placeholder="Your name"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label
-                          htmlFor="email"
+                          htmlFor="sched-email"
                           className="block text-sm font-medium text-gray-700 mb-2"
                         >
                           Email Address
@@ -273,11 +384,11 @@ export default function Contact() {
                           <Mail className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
                           <input
                             type="email"
-                            id="email"
-                            value={messageForm.email}
+                            id="sched-email"
+                            value={scheduleForm.email}
                             onChange={(e) =>
-                              setMessageForm({
-                                ...messageForm,
+                              setScheduleForm({
+                                ...scheduleForm,
                                 email: e.target.value,
                               })
                             }
@@ -289,7 +400,7 @@ export default function Contact() {
                       </div>
                       <div>
                         <label
-                          htmlFor="phone"
+                          htmlFor="sched-phone"
                           className="block text-sm font-medium text-gray-700 mb-2"
                         >
                           Phone Number
@@ -298,11 +409,11 @@ export default function Contact() {
                           <Phone className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
                           <input
                             type="tel"
-                            id="phone"
-                            value={messageForm.phone}
+                            id="sched-phone"
+                            value={scheduleForm.phone}
                             onChange={(e) =>
-                              setMessageForm({
-                                ...messageForm,
+                              setScheduleForm({
+                                ...scheduleForm,
                                 phone: e.target.value,
                               })
                             }
@@ -312,237 +423,112 @@ export default function Contact() {
                           />
                         </div>
                       </div>
-                      <div>
-                        <label
-                          htmlFor="message"
-                          className="block text-sm font-medium text-gray-700 mb-2"
-                        >
-                          Message
-                        </label>
-                        <div className="relative">
-                          <MessageSquare className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                          <textarea
-                            id="message"
-                            rows={6}
-                            value={messageForm.message}
-                            onChange={(e) =>
-                              setMessageForm({
-                                ...messageForm,
-                                message: e.target.value,
-                              })
-                            }
-                            className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                            placeholder="Your message or inquiry..."
-                            required
-                          />
-                        </div>
-                      </div>
-                      <button
-                        type="submit"
-                        disabled={loading}
-                        className={`w-full bg-gradient-to-r from-green-700 to-emerald-600 text-white py-4 rounded-lg hover:opacity-90 transition-opacity font-medium flex items-center justify-center gap-2 ${
-                          loading ? "opacity-70 cursor-not-allowed" : ""
-                        }`}
-                      >
-                        <Send className="h-5 w-5" />
-                        <span>{loading ? "Sending..." : "Send Message"}</span>
-                      </button>
-                    </form>
-                  </div>
-                )}
-
-                {/* Schedule Form */}
-                {activeForm === "schedule" && (
-                  <div>
-                    <h2 className="text-2xl font-serif font-bold mb-6">
-                      Schedule a Store Visit
-                    </h2>
-                    <div className="bg-green-100 text-green-800 p-4 rounded-lg mb-6 flex items-start gap-3">
-                      <Info className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
-                      <p className="text-sm">
-                        Schedule an appointment with our jewelry experts for
-                        personalized service. We'll confirm your appointment via
-                        email or phone within 24 hours.
-                      </p>
                     </div>
-                    <form onSubmit={handleScheduleSubmit} className="space-y-6">
+                    <div>
+                      <label
+                        htmlFor="purpose"
+                        className="block text-sm font-medium text-gray-700 mb-2"
+                      >
+                        Purpose of Visit
+                      </label>
+                      <select
+                        id="purpose"
+                        value={scheduleForm.purpose}
+                        onChange={(e) =>
+                          setScheduleForm({
+                            ...scheduleForm,
+                            purpose: e.target.value,
+                          })
+                        }
+                        className="w-full pl-4 pr-10 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent appearance-none bg-white" // Added pr-10 for select arrow, bg-white
+                        required
+                      >
+                        <option value="">Select purpose of visit</option>
+                        {visitPurposes.map((purpose) => (
+                          <option key={purpose} value={purpose}>
+                            {purpose}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label
-                          htmlFor="sched-name"
+                          htmlFor="date"
                           className="block text-sm font-medium text-gray-700 mb-2"
                         >
-                          Full Name
+                          Preferred Date
                         </label>
                         <div className="relative">
-                          <User className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                          <Calendar className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
                           <input
-                            type="text"
-                            id="sched-name"
-                            value={scheduleForm.name}
+                            type="date"
+                            id="date"
+                            min={today}
+                            max={maxDateString}
+                            value={scheduleForm.date}
                             onChange={(e) =>
                               setScheduleForm({
                                 ...scheduleForm,
-                                name: e.target.value,
+                                date: e.target.value,
+                                time: "", // Reset time when date changes
                               })
                             }
-                            className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                            placeholder="Your name"
+                            className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white" // Added bg-white
                             required
                           />
                         </div>
                       </div>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label
-                            htmlFor="sched-email"
-                            className="block text-sm font-medium text-gray-700 mb-2"
-                          >
-                            Email Address
-                          </label>
-                          <div className="relative">
-                            <Mail className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                            <input
-                              type="email"
-                              id="sched-email"
-                              value={scheduleForm.email}
-                              onChange={(e) =>
-                                setScheduleForm({
-                                  ...scheduleForm,
-                                  email: e.target.value,
-                                })
-                              }
-                              className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                              placeholder="your@email.com"
-                              required
-                            />
-                          </div>
-                        </div>
-                        <div>
-                          <label
-                            htmlFor="sched-phone"
-                            className="block text-sm font-medium text-gray-700 mb-2"
-                          >
-                            Phone Number
-                          </label>
-                          <div className="relative">
-                            <Phone className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                            <input
-                              type="tel"
-                              id="sched-phone"
-                              value={scheduleForm.phone}
-                              onChange={(e) =>
-                                setScheduleForm({
-                                  ...scheduleForm,
-                                  phone: e.target.value,
-                                })
-                              }
-                              className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                              placeholder="Your phone number"
-                              required
-                            />
-                          </div>
-                        </div>
-                      </div>
                       <div>
                         <label
-                          htmlFor="purpose"
+                          htmlFor="time"
                           className="block text-sm font-medium text-gray-700 mb-2"
                         >
-                          Purpose of Visit
+                          Preferred Time
                         </label>
-                        <select
-                          id="purpose"
-                          value={scheduleForm.purpose}
-                          onChange={(e) =>
-                            setScheduleForm({
-                              ...scheduleForm,
-                              purpose: e.target.value,
-                            })
-                          }
-                          className="w-full pl-4 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent appearance-none"
-                          required
-                        >
-                          <option value="">Select purpose of visit</option>
-                          {visitPurposes.map((purpose) => (
-                            <option key={purpose} value={purpose}>
-                              {purpose}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label
-                            htmlFor="date"
-                            className="block text-sm font-medium text-gray-700 mb-2"
+                        <div className="relative">
+                          <Clock className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+                          <select
+                            id="time"
+                            value={scheduleForm.time}
+                            onChange={(e) =>
+                              setScheduleForm({
+                                ...scheduleForm,
+                                time: e.target.value,
+                              })
+                            }
+                            className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent appearance-none bg-white" // Added bg-white
+                            required
+                            disabled={!scheduleForm.date || availableTimeSlots.length === 0}
                           >
-                            Preferred Date
-                          </label>
-                          <div className="relative">
-                            <Calendar className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                            <input
-                              type="date"
-                              id="date"
-                              min={today}
-                              max={maxDateString}
-                              value={scheduleForm.date}
-                              onChange={(e) =>
-                                setScheduleForm({
-                                  ...scheduleForm,
-                                  date: e.target.value,
-                                })
-                              }
-                              className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                              required
-                            />
-                          </div>
-                        </div>
-                        <div>
-                          <label
-                            htmlFor="time"
-                            className="block text-sm font-medium text-gray-700 mb-2"
-                          >
-                            Preferred Time
-                          </label>
-                          <div className="relative">
-                            <Clock className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                            <select
-                              id="time"
-                              value={scheduleForm.time}
-                              onChange={(e) =>
-                                setScheduleForm({
-                                  ...scheduleForm,
-                                  time: e.target.value,
-                                })
-                              }
-                              className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent appearance-none"
-                              required
-                            >
-                              <option value="">Select a time</option>
-                              {availableTimeSlots.map((time) => (
+                            <option value="">Select a time</option>
+                            {scheduleForm.date && availableTimeSlots.length > 0 ? (
+                              availableTimeSlots.map((time) => (
                                 <option key={time} value={time}>
                                   {time}
                                 </option>
-                              ))}
-                            </select>
-                          </div>
+                              ))
+                            ) : (
+                               <option value="" disabled>{scheduleForm.date ? "No slots available" : "Select a date first"}</option>
+                            )}
+                          </select>
                         </div>
                       </div>
-                      <button
-                        type="submit"
-                        disabled={loading}
-                        className={`w-full bg-gradient-to-r from-green-700 to-emerald-600 text-white py-4 rounded-lg hover:opacity-90 transition-opacity font-medium flex items-center justify-center gap-2 ${
-                          loading ? "opacity-70 cursor-not-allowed" : ""
-                        }`}
-                      >
-                        <Calendar className="h-5 w-5" />
-                        <span>
-                          {loading ? "Scheduling..." : "Schedule Visit"}
-                        </span>
-                      </button>
-                    </form>
-                  </div>
-                )}
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={loadingSchedule}
+                      className={`w-full bg-gradient-to-r from-green-700 to-emerald-600 text-white py-4 rounded-lg hover:opacity-90 transition-opacity font-medium flex items-center justify-center gap-2 ${
+                        loadingSchedule ? "opacity-70 cursor-not-allowed" : ""
+                      }`}
+                    >
+                      <Calendar className="h-5 w-5" />
+                      <span>
+                        {loadingSchedule ? "Scheduling..." : "Schedule Visit"}
+                      </span>
+                    </button>
+                  </form>
+                </div>
               </div>
             </div>
 

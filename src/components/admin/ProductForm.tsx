@@ -343,17 +343,17 @@ export default function ProductForm({ product = null, onSuccess = () => {} }) {
           />
         </div>
         
-        <div>
+        <div className='relative'>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Product Image *
           </label>
           
           {imagePreview ? (
-            <div className="relative w-full h-64 mb-4">
+            <div className="relative w-full h-80 mb-4">
               <img
                 src={imagePreview}
                 alt="Product preview"
-                className="w-full h-full object-cover rounded-lg"
+                className="w-full h-full object-contain rounded-lg"
               />
               <button
                 type="button"

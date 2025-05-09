@@ -1,10 +1,7 @@
-import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Diamond,
-  Award,
   Heart,
-  Star,
   ChevronLeft,
   ChevronRight,
   Gift,
@@ -85,7 +82,7 @@ export default function Home() {
     {
       name: "Engagement",
       image:
-        "https://images.unsplash.com/photo-1544917567-3e10286bc57e?auto=format&fit=crop&w=800&q=80",
+        "https://rosepng.com/wp-content/uploads/2024/02/s11728_diamond_ring_isolated_on_white_background_-stylize_20_4e4265e0-7f8d-48ca-9e1c-de3f0950081b_3-photoroom-png-photoroom_11zon.png",
       filter: "Engagement",
     },
     {
@@ -116,14 +113,12 @@ export default function Home() {
         "https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?auto=format&fit=crop&w=800&q=80",
       description:
         "Inspired by the cosmos, featuring star and moon motifs in precious metals",
-      price: "From $1,200",
     },
     {
       name: "Emerald Whispers",
       image:
         "https://images.unsplash.com/photo-1608042314453-ae338d80c427?auto=format&fit=crop&w=800&q=80",
       description: "Vibrant emeralds set in intricate gold filigree designs",
-      price: "From $3,500",
     },
     {
       name: "Minimalist Platinum",
@@ -131,14 +126,12 @@ export default function Home() {
         "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=800&q=80",
       description:
         "Clean, contemporary designs in pure platinum for the modern minimalist",
-      price: "From $2,800",
     },
     {
       name: "Rosegold Blush",
       image:
-        "https://images.unsplash.com/photo-1576022162026-9b1e63666312?auto=format&fit=crop&w=800&q=80",
+        "https://www.zavya.co/cdn/shop/files/JS-70148-RG.jpg?v=1736754479",
       description: "Delicate rose gold pieces with blush-toned gemstones",
-      price: "From $1,800",
     },
   ];
 
@@ -147,7 +140,7 @@ export default function Home() {
     {
       name: "Holiday Glamour",
       image:
-        "https://images.unsplash.com/photo-1513267048331-5611cad62e41?auto=format&fit=crop&w=800&q=80",
+        "https://indianjeweller.in/public/assets/uploads/news/1704870427_4fe114826154762acae9.jpg",
       description:
         "Dazzling pieces perfect for holiday celebrations and special occasions",
     },
@@ -161,7 +154,7 @@ export default function Home() {
     {
       name: "Wedding Season",
       image:
-        "https://images.unsplash.com/photo-1546167889-f5476a0e2b3b?auto=format&fit=crop&w=800&q=80",
+        "https://www.urvaa.com/wp-content/uploads/2024/02/WhatsApp-Image-2024-02-10-at-13.51.25-2.jpeg",
       description: "Complete bridal sets for the perfect wedding day ensemble",
     },
   ];
@@ -243,7 +236,6 @@ export default function Home() {
                   <p className="text-gray-600 mb-3 text-sm">
                     {item.description}
                   </p>
-                  <p className="text-green-600 font-semibold">{item.price}</p>
                   <button className="mt-4 w-full bg-gradient-to-r from-green-600 to-emerald-500 text-white py-2 rounded-lg hover:opacity-90 transition-opacity">
                     View Details
                   </button>
