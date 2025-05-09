@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import {
   MapPin,
   Phone,
@@ -12,22 +13,21 @@ import {
   User,
   MessageSquare,
   Send,
-  ChevronRight,
   Info,
-  Check
+  Check,
 } from "lucide-react";
-import { Link } from "react-router-dom";
 
 export default function Contact() {
-  // State for form type selection
-  const [activeForm, setActiveForm] = useState("message"); // "message" or "schedule"
+  const [activeForm, setActiveForm] = useState("message");
+  const [loading, setLoading] = useState(false);
+  const [availableTimeSlots, setAvailableTimeSlots] = useState([]);
   
   // State for message form
   const [messageForm, setMessageForm] = useState({
     name: "",
     email: "",
     phone: "",
-    message: ""
+    message: "",
   });
   
   // State for schedule form
@@ -37,25 +37,13 @@ export default function Contact() {
     phone: "",
     date: "",
     time: "",
-    purpose: ""
+    purpose: "",
   });
   
-  // State for submission feedback
+  // State for feedback
   const [showSuccess, setShowSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
-
-  // Available time slots
-  const timeSlots = [
-    "10:00 AM",
-    "11:00 AM",
-    "12:00 PM",
-    "2:00 PM",
-    "3:00 PM",
-    "4:00 PM",
-    "5:00 PM",
-    "6:00 PM",
-    "7:00 PM"
-  ];
+  const [error, setError] = useState("");
 
   // Visit purpose options
   const visitPurposes = [
@@ -64,50 +52,8 @@ export default function Contact() {
     "Repair Service",
     "Appraisal",
     "General Browsing",
-    "Other"
+    "Other",
   ];
-
-  const handleMessageSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log("Message form submitted:", messageForm);
-    
-    // Show success message
-    setSuccessMessage("Your message has been sent successfully!");
-    setShowSuccess(true);
-    
-    // Reset form after delay
-    setTimeout(() => {
-      setShowSuccess(false);
-      setMessageForm({
-        name: "",
-        email: "",
-        phone: "",
-        message: ""
-      });
-    }, 3000);
-  };
-
-  const handleScheduleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log("Schedule form submitted:", scheduleForm);
-    
-    // Show success message
-    setSuccessMessage("Your visit has been scheduled successfully!");
-    setShowSuccess(true);
-    
-    // Reset form after delay
-    setTimeout(() => {
-      setShowSuccess(false);
-      setScheduleForm({
-        name: "",
-        email: "",
-        phone: "",
-        date: "",
-        time: "",
-        purpose: ""
-      });
-    }, 3000);
-  };
 
   // Get today's date in YYYY-MM-DD format
   const today = new Date().toISOString().split("T")[0];
@@ -116,6 +62,109 @@ export default function Contact() {
   const maxDate = new Date();
   maxDate.setDate(maxDate.getDate() + 30);
   const maxDateString = maxDate.toISOString().split("T")[0];
+
+  // Fetch available time slots when date changes
+  useEffect(() => {
+    if (scheduleForm.date) {
+      fetchAvailableTimeSlots(scheduleForm.date);
+    }
+  }, [scheduleForm.date]);
+
+  const fetchAvailableTimeSlots = async (date: string | number | boolean) => {
+    try {
+      const response = await fetch(
+        `/api/contact/timeslots?date=${encodeURIComponent(date)}`
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch time slots");
+      }
+      const slots = await response.json();
+      setAvailableTimeSlots(slots);
+    } catch (error) {
+      console.error("Error fetching time slots:", error);
+      setError("Failed to fetch available time slots");
+    }
+  };
+
+  const handleMessageSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      const response = await fetch("/api/contact/message", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(messageForm),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to send message");
+      }
+
+      setSuccessMessage("Your message has been sent successfully!");
+      setShowSuccess(true);
+      setMessageForm({
+        name: "",
+        email: "",
+        phone: "",
+        message: "",
+      });
+
+      setTimeout(() => {
+        setShowSuccess(false);
+      }, 3000);
+    } catch (error) {
+      setError(error instanceof Error ? error.message : "Failed to send message");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleScheduleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      const response = await fetch("/api/contact/visit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(scheduleForm),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to schedule visit");
+      }
+
+      setSuccessMessage("Your visit has been scheduled successfully!");
+      setShowSuccess(true);
+      setScheduleForm({
+        name: "",
+        email: "",
+        phone: "",
+        date: "",
+        time: "",
+        purpose: "",
+      });
+
+      setTimeout(() => {
+        setShowSuccess(false);
+      }, 3000);
+    } catch (error) {
+      setError(error instanceof Error ? error.message : "Failed to schedule visit");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="pt-24">
@@ -142,8 +191,8 @@ export default function Contact() {
                 <button
                   onClick={() => setActiveForm("message")}
                   className={`flex-1 py-4 px-6 flex items-center justify-center gap-2 font-medium transition-colors ${
-                    activeForm === "message" 
-                      ? "text-green-700 border-b-2 border-green-700" 
+                    activeForm === "message"
+                      ? "text-green-700 border-b-2 border-green-700"
                       : "text-gray-500 hover:text-green-600"
                   }`}
                 >
@@ -153,8 +202,8 @@ export default function Contact() {
                 <button
                   onClick={() => setActiveForm("schedule")}
                   className={`flex-1 py-4 px-6 flex items-center justify-center gap-2 font-medium transition-colors ${
-                    activeForm === "schedule" 
-                      ? "text-green-700 border-b-2 border-green-700" 
+                    activeForm === "schedule"
+                      ? "text-green-700 border-b-2 border-green-700"
                       : "text-gray-500 hover:text-green-600"
                   }`}
                 >
@@ -162,9 +211,17 @@ export default function Contact() {
                   <span>Schedule a Visit</span>
                 </button>
               </div>
-              
+
               {/* Content Area */}
               <div className="p-8 bg-gradient-to-br from-green-50 to-emerald-50">
+                {/* Error Message */}
+                {error && (
+                  <div className="mb-6 bg-red-100 border border-red-300 text-red-800 rounded-lg p-4 flex items-center gap-3">
+                    <Info className="h-5 w-5 text-red-600" />
+                    <span>{error}</span>
+                  </div>
+                )}
+
                 {/* Success Message */}
                 {showSuccess && (
                   <div className="mb-6 bg-green-100 border border-green-300 text-green-800 rounded-lg p-4 flex items-center gap-3 animate-fadeIn">
@@ -172,11 +229,13 @@ export default function Contact() {
                     <span>{successMessage}</span>
                   </div>
                 )}
-                
+
                 {/* Message Form */}
                 {activeForm === "message" && (
                   <div>
-                    <h2 className="text-2xl font-serif font-bold mb-6">Send Us a Message</h2>
+                    <h2 className="text-2xl font-serif font-bold mb-6">
+                      Send Us a Message
+                    </h2>
                     <form onSubmit={handleMessageSubmit} className="space-y-6">
                       <div>
                         <label
@@ -192,7 +251,10 @@ export default function Contact() {
                             id="name"
                             value={messageForm.name}
                             onChange={(e) =>
-                              setMessageForm({ ...messageForm, name: e.target.value })
+                              setMessageForm({
+                                ...messageForm,
+                                name: e.target.value,
+                              })
                             }
                             className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
                             placeholder="Your name"
@@ -214,7 +276,10 @@ export default function Contact() {
                             id="email"
                             value={messageForm.email}
                             onChange={(e) =>
-                              setMessageForm({ ...messageForm, email: e.target.value })
+                              setMessageForm({
+                                ...messageForm,
+                                email: e.target.value,
+                              })
                             }
                             className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
                             placeholder="your@email.com"
@@ -236,10 +301,14 @@ export default function Contact() {
                             id="phone"
                             value={messageForm.phone}
                             onChange={(e) =>
-                              setMessageForm({ ...messageForm, phone: e.target.value })
+                              setMessageForm({
+                                ...messageForm,
+                                phone: e.target.value,
+                              })
                             }
                             className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
                             placeholder="Your phone number"
+                            required
                           />
                         </div>
                       </div>
@@ -257,7 +326,10 @@ export default function Contact() {
                             rows={6}
                             value={messageForm.message}
                             onChange={(e) =>
-                              setMessageForm({ ...messageForm, message: e.target.value })
+                              setMessageForm({
+                                ...messageForm,
+                                message: e.target.value,
+                              })
                             }
                             className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
                             placeholder="Your message or inquiry..."
@@ -267,24 +339,30 @@ export default function Contact() {
                       </div>
                       <button
                         type="submit"
-                        className="w-full bg-gradient-to-r from-green-700 to-emerald-600 text-white py-4 rounded-lg hover:opacity-90 transition-opacity font-medium flex items-center justify-center gap-2"
+                        disabled={loading}
+                        className={`w-full bg-gradient-to-r from-green-700 to-emerald-600 text-white py-4 rounded-lg hover:opacity-90 transition-opacity font-medium flex items-center justify-center gap-2 ${
+                          loading ? "opacity-70 cursor-not-allowed" : ""
+                        }`}
                       >
                         <Send className="h-5 w-5" />
-                        <span>Send Message</span>
+                        <span>{loading ? "Sending..." : "Send Message"}</span>
                       </button>
                     </form>
                   </div>
                 )}
-                
+
                 {/* Schedule Form */}
                 {activeForm === "schedule" && (
                   <div>
-                    <h2 className="text-2xl font-serif font-bold mb-6">Schedule a Store Visit</h2>
+                    <h2 className="text-2xl font-serif font-bold mb-6">
+                      Schedule a Store Visit
+                    </h2>
                     <div className="bg-green-100 text-green-800 p-4 rounded-lg mb-6 flex items-start gap-3">
                       <Info className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
                       <p className="text-sm">
-                        Schedule an appointment with our jewelry experts for personalized service.
-                        We'll confirm your appointment via email or phone within 24 hours.
+                        Schedule an appointment with our jewelry experts for
+                        personalized service. We'll confirm your appointment via
+                        email or phone within 24 hours.
                       </p>
                     </div>
                     <form onSubmit={handleScheduleSubmit} className="space-y-6">
@@ -302,7 +380,10 @@ export default function Contact() {
                             id="sched-name"
                             value={scheduleForm.name}
                             onChange={(e) =>
-                              setScheduleForm({ ...scheduleForm, name: e.target.value })
+                              setScheduleForm({
+                                ...scheduleForm,
+                                name: e.target.value,
+                              })
                             }
                             className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
                             placeholder="Your name"
@@ -325,7 +406,10 @@ export default function Contact() {
                               id="sched-email"
                               value={scheduleForm.email}
                               onChange={(e) =>
-                                setScheduleForm({ ...scheduleForm, email: e.target.value })
+                                setScheduleForm({
+                                  ...scheduleForm,
+                                  email: e.target.value,
+                                })
                               }
                               className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
                               placeholder="your@email.com"
@@ -347,7 +431,10 @@ export default function Contact() {
                               id="sched-phone"
                               value={scheduleForm.phone}
                               onChange={(e) =>
-                                setScheduleForm({ ...scheduleForm, phone: e.target.value })
+                                setScheduleForm({
+                                  ...scheduleForm,
+                                  phone: e.target.value,
+                                })
                               }
                               className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
                               placeholder="Your phone number"
@@ -367,7 +454,10 @@ export default function Contact() {
                           id="purpose"
                           value={scheduleForm.purpose}
                           onChange={(e) =>
-                            setScheduleForm({ ...scheduleForm, purpose: e.target.value })
+                            setScheduleForm({
+                              ...scheduleForm,
+                              purpose: e.target.value,
+                            })
                           }
                           className="w-full pl-4 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent appearance-none"
                           required
@@ -397,7 +487,10 @@ export default function Contact() {
                               max={maxDateString}
                               value={scheduleForm.date}
                               onChange={(e) =>
-                                setScheduleForm({ ...scheduleForm, date: e.target.value })
+                                setScheduleForm({
+                                  ...scheduleForm,
+                                  date: e.target.value,
+                                })
                               }
                               className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
                               required
@@ -417,13 +510,16 @@ export default function Contact() {
                               id="time"
                               value={scheduleForm.time}
                               onChange={(e) =>
-                                setScheduleForm({ ...scheduleForm, time: e.target.value })
+                                setScheduleForm({
+                                  ...scheduleForm,
+                                  time: e.target.value,
+                                })
                               }
                               className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent appearance-none"
                               required
                             >
                               <option value="">Select a time</option>
-                              {timeSlots.map((time) => (
+                              {availableTimeSlots.map((time) => (
                                 <option key={time} value={time}>
                                   {time}
                                 </option>
@@ -434,10 +530,15 @@ export default function Contact() {
                       </div>
                       <button
                         type="submit"
-                        className="w-full bg-gradient-to-r from-green-700 to-emerald-600 text-white py-4 rounded-lg hover:opacity-90 transition-opacity font-medium flex items-center justify-center gap-2"
+                        disabled={loading}
+                        className={`w-full bg-gradient-to-r from-green-700 to-emerald-600 text-white py-4 rounded-lg hover:opacity-90 transition-opacity font-medium flex items-center justify-center gap-2 ${
+                          loading ? "opacity-70 cursor-not-allowed" : ""
+                        }`}
                       >
                         <Calendar className="h-5 w-5" />
-                        <span>Schedule Visit</span>
+                        <span>
+                          {loading ? "Scheduling..." : "Schedule Visit"}
+                        </span>
                       </button>
                     </form>
                   </div>
@@ -511,12 +612,18 @@ export default function Contact() {
                 </h3>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                    <span className="text-gray-600 font-medium">Monday - Friday</span>
-                    <span className="font-medium text-green-700">10:00 AM - 8:00 PM</span>
+                    <span className="text-gray-600 font-medium">
+                      Monday - Friday
+                    </span>
+                    <span className="font-medium text-green-700">
+                      10:00 AM - 8:00 PM
+                    </span>
                   </div>
                   <div className="flex justify-between items-center py-2 border-b border-gray-100">
                     <span className="text-gray-600 font-medium">Saturday</span>
-                    <span className="font-medium text-green-700">10:00 AM - 6:00 PM</span>
+                    <span className="font-medium text-green-700">
+                      10:00 AM - 6:00 PM
+                    </span>
                   </div>
                   <div className="flex justify-between items-center py-2">
                     <span className="text-gray-600 font-medium">Sunday</span>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Diamond, Package, LogOut, Plus, Search } from "lucide-react";
+import { Diamond, Package, LogOut, Plus } from "lucide-react";
 import ProductForm from "../../components/admin/ProductForm";
 import ProductList from "../../components/admin/ProductList";
 
@@ -18,6 +18,26 @@ export default function Dashboard() {
     }
 
     setAdminInfo(JSON.parse(storedAdminInfo));
+
+    // Verify token validity
+    const verifyToken = async () => {
+      try {
+        const response = await fetch("/api/admin/profile", {
+          headers: {
+            Authorization: `Bearer ${JSON.parse(storedAdminInfo).token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Token invalid");
+        }
+      } catch (error) {
+        localStorage.removeItem("adminInfo");
+        navigate("/admin/login");
+      }
+    };
+
+    verifyToken();
   }, [navigate]);
 
   const handleLogout = () => {
